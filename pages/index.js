@@ -1,65 +1,104 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Layout from "../src/component/Layout";
+import ReactMarkdown from "react-markdown";
+import Link from "next/link";
+import configData from "../data/config.json";
+import axios from "axios";
+import getConfig from "next/config";
 
-export default function Home() {
+export default function Home(props) {
+  const { publicRuntimeConfig } = getConfig();
+  const posts = props.posts;
+  const pages = props.pages;
+  const config = props.configData;
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Layout config={config} pages={pages}>
+      <div className="post-feed">
+        {posts &&
+          posts.map((post, index) => {
+            return (
+              <article className="post" key={index}>
+                <header className="post-header">
+                  <h2 className="post-title">
+                    <Link
+                      href={{
+                        pathname: "/posts/[slug]",
+                        query: { slug: post.id },
+                      }}
+                    >
+                      <a rel="bookmark">{post.data.title}</a>
+                    </Link>
+                  </h2>
+                  <div className="post-meta">
+                    Published on{" "}
+                    <time className="published" dateTime="2020-02-20 00:00">
+                      {post.data.createTime}
+                    </time>
+                  </div>
+                </header>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+                <Link
+                  href={{
+                    pathname: "/posts/[slug]",
+                    query: { slug: post.id },
+                  }}
+                >
+                  <a className="post-thumbnail">
+                    <img
+                      className="thumbnail"
+                      src={post.data.featureImage[0]}
+                      alt={post.data.title}
+                    />
+                  </a>
+                </Link>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+                <div className="post-content">
+                  <ReactMarkdown children={post.data.Desciption} />
+                </div>
+                <p className="read-more">
+                  <Link
+                    href={{
+                      pathname: "/posts/[slug]",
+                      query: { slug: post.id },
+                    }}
+                  >
+                    <a className="read-more-link">
+                      Keep reading{" "}
+                      <span
+                        className="icon-arrow-right"
+                        aria-hidden="true"
+                      ></span>
+                    </a>
+                  </Link>
+                </p>
+              </article>
+            );
+          })}
+      </div>
+    </Layout>
+  );
+}
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+export async function getStaticProps() {
+  const data = await axios.get(`${process.env.API}/news/post/`, {
+    headers: {
+      "X-Flatten": true,
+      "X-Languages": "vi",
+    },
+  });
+  const pages = [];
+  // const pages = sb.pages.filter(
+  //   (page) => page.path !== "/" && !page.path.startsWith("/posts/")
+  // );
+  // const posts = data.data.items.filter(
+  //   (page) => page.path !== "/" && page.path.startsWith("/posts/")
+  // );
+  const posts = data.data.items;
+  return {
+    props: {
+      configData,
+      pages,
+      posts,
+    },
+  };
 }
