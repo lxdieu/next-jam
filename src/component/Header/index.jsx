@@ -5,7 +5,6 @@ class Header extends React.Component {
   render() {
     const config = this.props.config;
     const pages = this.props.pages;
-    const page = this.props.page;
     const posts = this.props.posts;
     const headerStyle = {
       backgroundImage: "url(" + config.bgimage + ")",
@@ -53,7 +52,7 @@ class Header extends React.Component {
                             <li className="menu-item" key={index}>
                               <Link
                                 href={{
-                                  pathname: "[slug]",
+                                  pathname: "/[slug]",
                                   query: { slug: page.id },
                                 }}
                               >

@@ -2916,7 +2916,6 @@ class Header_Header extends external_react_default.a.Component {
   render() {
     const config = this.props.config;
     const pages = this.props.pages;
-    const page = this.props.page;
     const posts = this.props.posts;
     const headerStyle = {
       backgroundImage: "url(" + config.bgimage + ")"
@@ -2985,7 +2984,7 @@ class Header_Header extends external_react_default.a.Component {
                         className: "menu-item",
                         children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
                           href: {
-                            pathname: "[slug]",
+                            pathname: "/[slug]",
                             query: {
                               slug: page.id
                             }
