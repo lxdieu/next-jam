@@ -13,7 +13,7 @@ export default function Layout({ children, config, pages, posts, ...props }) {
           rel="stylesheet"
         ></link>
       </Head>
-      <Header config={config} pages={pages}></Header>
+      <Header config={config} pages={pages} posts={posts}></Header>
       <div id="content" className="site-content">
         <main id="main" className="site-main inner">
           {children}

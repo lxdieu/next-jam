@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -174,14 +174,6 @@ exports.cancelIdleCallback = cancelIdleCallback;
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("3slx");
-
-
-/***/ }),
-
 /***/ "284h":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -240,6 +232,14 @@ function _interopRequireWildcard(obj) {
 }
 
 module.exports = _interopRequireWildcard;
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("3slx");
+
 
 /***/ }),
 
@@ -325,29 +325,30 @@ var _data_config_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__we
 function Post({
   configData,
   page,
-  pages
+  pages,
+  posts
 }) {
-  const data = JSON.parse(page);
   return /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_src_component_Layout__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"], {
     config: configData,
     pages: pages,
+    posts: posts,
     children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("article", {
       className: "post page post-full",
       children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("header", {
         className: "post-header",
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("h1", {
           className: "post-title",
-          children: data.data.title
+          children: page.data.title
         })
       }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
         className: "post-content",
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_markdown__WEBPACK_IMPORTED_MODULE_2___default.a, {
-          children: data.data.Desciption
+          children: page.data.Desciption
         })
       }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
         className: "post-content",
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_markdown__WEBPACK_IMPORTED_MODULE_2___default.a, {
-          children: data.data.Content
+          children: page.data.Content
         })
       })]
     })
@@ -379,13 +380,27 @@ async function getStaticProps({
       "X-Languages": "vi"
     }
   });
-  const page = JSON.stringify(data.data);
-  const pages = [];
+  const listPages = await axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(`${process.env.API}/news/page`, {
+    headers: {
+      "X-Flatten": true,
+      "X-Languages": "vi"
+    }
+  });
+  const listPosts = await axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(`${process.env.API}/news/post`, {
+    headers: {
+      "X-Flatten": true,
+      "X-Languages": "vi"
+    }
+  });
+  const page = data.data;
+  const pages = listPages.data.items;
+  const posts = listPosts.data.items;
   return {
     props: {
       configData: _data_config_json__WEBPACK_IMPORTED_MODULE_3__,
       page,
-      pages
+      pages,
+      posts
     }
   };
 }
@@ -2902,6 +2917,7 @@ class Header_Header extends external_react_default.a.Component {
     const config = this.props.config;
     const pages = this.props.pages;
     const page = this.props.page;
+    const posts = this.props.posts;
     const headerStyle = {
       backgroundImage: "url(" + config.bgimage + ")"
     };
@@ -2947,29 +2963,63 @@ class Header_Header extends external_react_default.a.Component {
               "aria-label": "Main Navigation",
               children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
                 className: "site-nav-wrap",
-                children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+                children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
                   className: "site-nav-inside",
-                  children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("ul", {
+                  children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("h1", {
+                    style: {
+                      color: "#fff"
+                    },
+                    children: "Page"
+                  }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("ul", {
                     className: "menu",
                     children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
                       className: "menu-item ",
-                      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+                      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
                         href: "/",
-                        children: "Home"
+                        children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+                          children: "Home"
+                        })
                       })
                     }), pages && pages.map((page, index) => {
                       return /*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
                         className: "menu-item",
                         children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
-                          href: "[slug]",
-                          as: `${page.path}`,
+                          href: {
+                            pathname: "[slug]",
+                            query: {
+                              slug: page.id
+                            }
+                          },
                           children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
-                            children: page.page.title
+                            children: page.data.title
                           })
                         })
                       }, index);
                     })]
-                  })
+                  }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("h1", {
+                    style: {
+                      color: "#fff"
+                    },
+                    children: "Post"
+                  }), posts && /*#__PURE__*/Object(jsx_runtime_["jsx"])("ul", {
+                    className: "menu",
+                    children: posts.map((post, index) => {
+                      return /*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
+                        className: "menu-item",
+                        children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
+                          href: {
+                            pathname: "/posts/[slug]",
+                            query: {
+                              slug: post.id
+                            }
+                          },
+                          children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+                            children: post.data.title
+                          })
+                        })
+                      }, index);
+                    })
+                  })]
                 })
               })
             }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("button", {
@@ -3077,7 +3127,8 @@ function Layout_Layout(_ref) {
       })]
     }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(component_Header, {
       config: config,
-      pages: pages
+      pages: pages,
+      posts: posts
     }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
       id: "content",
       className: "site-content",

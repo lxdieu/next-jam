@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -174,7 +174,7 @@ exports.cancelIdleCallback = cancelIdleCallback;
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("RNiq");
@@ -802,7 +802,6 @@ var _data_config_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__we
 
 
 
-
 function Home(props) {
   const {
     publicRuntimeConfig
@@ -813,92 +812,30 @@ function Home(props) {
   return /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_src_component_Layout__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"], {
     config: config,
     pages: pages,
+    posts: posts,
     children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
       className: "post-feed",
-      children: posts && posts.map((post, index) => {
-        return /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("article", {
-          className: "post",
-          children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("header", {
-            className: "post-header",
-            children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("h2", {
-              className: "post-title",
-              children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
-                href: {
-                  pathname: "/posts/[slug]",
-                  query: {
-                    slug: post.id
-                  }
-                },
-                children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
-                  rel: "bookmark",
-                  children: post.data.title
-                })
-              })
-            }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
-              className: "post-meta",
-              children: ["Published on", " ", /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("time", {
-                className: "published",
-                dateTime: "2020-02-20 00:00",
-                children: post.data.createTime
-              })]
-            })]
-          }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
-            href: {
-              pathname: "/posts/[slug]",
-              query: {
-                slug: post.id
-              }
-            },
-            children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
-              className: "post-thumbnail",
-              children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("img", {
-                className: "thumbnail",
-                src: post.data.featureImage[0],
-                alt: post.data.title
-              })
-            })
-          }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
-            className: "post-content",
-            children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_markdown__WEBPACK_IMPORTED_MODULE_2___default.a, {
-              children: post.data.Desciption
-            })
-          }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("p", {
-            className: "read-more",
-            children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_3___default.a // href={{
-            //   pathname: "/posts/[slug]",
-            //   query: { slug: post.id },
-            // }}
-            , {
-              href: `./posts/${post.id}.html`,
-              children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("a", {
-                className: "read-more-link",
-                children: ["Keep reading", " ", /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("span", {
-                  className: "icon-arrow-right",
-                  "aria-hidden": "true"
-                })]
-              })
-            })
-          })]
-        }, index);
+      children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("p", {
+        children: "Home Page"
       })
     })
   });
 }
 async function getStaticProps() {
-  const data = await axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(`${process.env.API}/news/post/`, {
+  const listPosts = await axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(`${process.env.API}/news/post/`, {
     headers: {
       "X-Flatten": true,
       "X-Languages": "vi"
     }
   });
-  const pages = []; // const pages = sb.pages.filter(
-  //   (page) => page.path !== "/" && !page.path.startsWith("/posts/")
-  // );
-  // const posts = data.data.items.filter(
-  //   (page) => page.path !== "/" && page.path.startsWith("/posts/")
-  // );
-
-  const posts = data.data.items;
+  const listPages = await axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(`${process.env.API}/news/page/`, {
+    headers: {
+      "X-Flatten": true,
+      "X-Languages": "vi"
+    }
+  });
+  const pages = listPages.data.items;
+  const posts = listPosts.data.items;
   return {
     props: {
       configData: _data_config_json__WEBPACK_IMPORTED_MODULE_4__,
@@ -2951,6 +2888,7 @@ class Header_Header extends external_react_default.a.Component {
     const config = this.props.config;
     const pages = this.props.pages;
     const page = this.props.page;
+    const posts = this.props.posts;
     const headerStyle = {
       backgroundImage: "url(" + config.bgimage + ")"
     };
@@ -2996,29 +2934,63 @@ class Header_Header extends external_react_default.a.Component {
               "aria-label": "Main Navigation",
               children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
                 className: "site-nav-wrap",
-                children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+                children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
                   className: "site-nav-inside",
-                  children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("ul", {
+                  children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("h1", {
+                    style: {
+                      color: "#fff"
+                    },
+                    children: "Page"
+                  }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("ul", {
                     className: "menu",
                     children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
                       className: "menu-item ",
-                      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+                      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
                         href: "/",
-                        children: "Home"
+                        children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+                          children: "Home"
+                        })
                       })
                     }), pages && pages.map((page, index) => {
                       return /*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
                         className: "menu-item",
                         children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
-                          href: "[slug]",
-                          as: `${page.path}`,
+                          href: {
+                            pathname: "[slug]",
+                            query: {
+                              slug: page.id
+                            }
+                          },
                           children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
-                            children: page.page.title
+                            children: page.data.title
                           })
                         })
                       }, index);
                     })]
-                  })
+                  }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("h1", {
+                    style: {
+                      color: "#fff"
+                    },
+                    children: "Post"
+                  }), posts && /*#__PURE__*/Object(jsx_runtime_["jsx"])("ul", {
+                    className: "menu",
+                    children: posts.map((post, index) => {
+                      return /*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
+                        className: "menu-item",
+                        children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
+                          href: {
+                            pathname: "/posts/[slug]",
+                            query: {
+                              slug: post.id
+                            }
+                          },
+                          children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+                            children: post.data.title
+                          })
+                        })
+                      }, index);
+                    })
+                  })]
                 })
               })
             }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("button", {
@@ -3126,7 +3098,8 @@ function Layout_Layout(_ref) {
       })]
     }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(component_Header, {
       config: config,
-      pages: pages
+      pages: pages,
+      posts: posts
     }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
       id: "content",
       className: "site-content",

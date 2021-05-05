@@ -6,6 +6,7 @@ class Header extends React.Component {
     const config = this.props.config;
     const pages = this.props.pages;
     const page = this.props.page;
+    const posts = this.props.posts;
     const headerStyle = {
       backgroundImage: "url(" + config.bgimage + ")",
     };
@@ -39,21 +40,48 @@ class Header extends React.Component {
               >
                 <div className="site-nav-wrap">
                   <div className="site-nav-inside">
+                    <h1 style={{ color: "#fff" }}>Page</h1>
                     <ul className="menu">
                       <li className="menu-item ">
-                        <a href="/">Home</a>
+                        <Link href="/">
+                          <a>Home</a>
+                        </Link>
                       </li>
                       {pages &&
                         pages.map((page, index) => {
                           return (
                             <li className="menu-item" key={index}>
-                              <Link href="[slug]" as={`${page.path}`}>
-                                <a>{page.page.title}</a>
+                              <Link
+                                href={{
+                                  pathname: "[slug]",
+                                  query: { slug: page.id },
+                                }}
+                              >
+                                <a>{page.data.title}</a>
                               </Link>
                             </li>
                           );
                         })}
                     </ul>
+                    <h1 style={{ color: "#fff" }}>Post</h1>
+                    {posts && (
+                      <ul className="menu">
+                        {posts.map((post, index) => {
+                          return (
+                            <li className="menu-item" key={index}>
+                              <Link
+                                href={{
+                                  pathname: "/posts/[slug]",
+                                  query: { slug: post.id },
+                                }}
+                              >
+                                <a>{post.data.title}</a>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
                   </div>
                 </div>
               </nav>
