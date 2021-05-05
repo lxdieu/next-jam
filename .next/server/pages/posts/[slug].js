@@ -3057,9 +3057,10 @@ function Layout_Layout(_ref) {
   let {
     children,
     config,
-    pages
+    pages,
+    posts
   } = _ref,
-      props = Layout_objectWithoutProperties(_ref, ["children", "config", "pages"]);
+      props = Layout_objectWithoutProperties(_ref, ["children", "config", "pages", "posts"]);
 
   return /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
     id: "page",

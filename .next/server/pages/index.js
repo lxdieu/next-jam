@@ -864,13 +864,12 @@ function Home(props) {
             })
           }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("p", {
             className: "read-more",
-            children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
-              href: {
-                pathname: "/posts/[slug]",
-                query: {
-                  slug: post.id
-                }
-              },
+            children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_3___default.a // href={{
+            //   pathname: "/posts/[slug]",
+            //   query: { slug: post.id },
+            // }}
+            , {
+              href: `./posts/${post.id}.html`,
               children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("a", {
                 className: "read-more-link",
                 children: ["Keep reading", " ", /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("span", {
@@ -3107,9 +3106,10 @@ function Layout_Layout(_ref) {
   let {
     children,
     config,
-    pages
+    pages,
+    posts
   } = _ref,
-      props = Layout_objectWithoutProperties(_ref, ["children", "config", "pages"]);
+      props = Layout_objectWithoutProperties(_ref, ["children", "config", "pages", "posts"]);
 
   return /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
     id: "page",

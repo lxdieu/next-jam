@@ -2,7 +2,7 @@ import Head from "next/head";
 import Header from "../Header";
 import Footer from "../Footer";
 
-export default function Layout({ children, config, pages, ...props }) {
+export default function Layout({ children, config, pages, posts, ...props }) {
   return (
     <div id="page" className="site palette-yellow">
       <Head>

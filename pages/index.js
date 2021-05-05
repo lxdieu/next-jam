@@ -57,10 +57,11 @@ export default function Home(props) {
                 </div>
                 <p className="read-more">
                   <Link
-                    href={{
-                      pathname: "/posts/[slug]",
-                      query: { slug: post.id },
-                    }}
+                    // href={{
+                    //   pathname: "/posts/[slug]",
+                    //   query: { slug: post.id },
+                    // }}
+                    href={`./posts/${post.id}.html`}
                   >
                     <a className="read-more-link">
                       Keep reading{" "}
