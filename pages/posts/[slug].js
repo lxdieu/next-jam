@@ -11,10 +11,10 @@ export default function Post({ configData, page, pages, posts }) {
           <h1 className="post-title">{page.data.title}</h1>
         </header>
         <div className="post-content">
-          <ReactMarkdown children={page.data.Desciption} />
+          <ReactMarkdown children={page.data.desciption} />
         </div>
         <div className="post-content">
-          <ReactMarkdown children={page.data.Content} />
+          <ReactMarkdown children={page.data.dontent} />
         </div>
       </article>
     </Layout>
