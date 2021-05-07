@@ -464,7 +464,7 @@ function formatUrl(urlObj) {
 /***/ "AnCH":
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"title\":\"Nextjs jamstack\",\"tagline\":\"Discover an unknown world.\",\"logo\":\"/images/logo.png\",\"bgimage\":\"/images/header-bg.jpg\",\"footerContent\":\"Content courtesy of the [Control Wiki](https://control.fandom.com/wiki/Control_Wiki).\"}");
+module.exports = JSON.parse("{\"title\":\"Nextjs jamstack\",\"tagline\":\"HSC\",\"logo\":\"/images/logo.png\",\"bgimage\":\"/images/header-bg.jpg\",\"footerContent\":\"From HSC with love\"}");
 
 /***/ }),
 
@@ -2888,25 +2888,21 @@ class Header_Header extends external_react_default.a.Component {
     const config = this.props.config;
     const pages = this.props.pages;
     const posts = this.props.posts;
-    const headerStyle = {
-      backgroundImage: "url(" + config.bgimage + ")"
-    };
     return /*#__PURE__*/Object(jsx_runtime_["jsxs"])("header", {
       id: "masthead",
       className: "site-header",
       children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
         id: "header-bg",
-        className: "site-header-bg",
-        style: headerStyle
+        className: "site-header-bg"
       }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
         className: "site-header-scroll",
         children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
           className: "site-header-inside",
           children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
             className: "site-header-vertical",
-            children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
               className: "site-branding",
-              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("p", {
+              children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("p", {
                 className: "site-logo",
                 children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
                   href: "/",
@@ -2915,32 +2911,16 @@ class Header_Header extends external_react_default.a.Component {
                     alt: "Logo"
                   })
                 })
-              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("h1", {
-                className: "site-title",
-                children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
-                  href: "/",
-                  children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
-                    children: config.title
-                  })
-                })
-              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("p", {
-                className: "site-description",
-                children: config.tagline
-              })]
+              })
             }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("nav", {
               id: "main-navigation",
               className: "site-navigation",
               "aria-label": "Main Navigation",
               children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
                 className: "site-nav-wrap",
-                children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+                children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
                   className: "site-nav-inside",
-                  children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("h1", {
-                    style: {
-                      color: "#fff"
-                    },
-                    children: "Page"
-                  }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("ul", {
+                  children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("ul", {
                     className: "menu",
                     children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
                       className: "menu-item ",
@@ -2950,7 +2930,7 @@ class Header_Header extends external_react_default.a.Component {
                           children: "Home"
                         })
                       })
-                    }), pages && pages.map((page, index) => {
+                    }), pages.map((page, index) => {
                       return /*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
                         className: "menu-item",
                         children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
@@ -2965,15 +2945,7 @@ class Header_Header extends external_react_default.a.Component {
                           })
                         })
                       }, index);
-                    })]
-                  }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("h1", {
-                    style: {
-                      color: "#fff"
-                    },
-                    children: "Post"
-                  }), posts && /*#__PURE__*/Object(jsx_runtime_["jsx"])("ul", {
-                    className: "menu",
-                    children: posts.map((post, index) => {
+                    }), posts.map((post, index) => {
                       return /*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
                         className: "menu-item",
                         children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
@@ -2988,45 +2960,15 @@ class Header_Header extends external_react_default.a.Component {
                           })
                         })
                       }, index);
-                    })
-                  })]
+                    })]
+                  })
                 })
               })
-            }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("button", {
-              id: "menu-toggle",
-              className: "menu-toggle",
-              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
-                className: "screen-reader-text",
-                children: "Menu"
-              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
-                className: "icon-menu",
-                "aria-hidden": "true"
-              })]
             })]
           })
         })
       })]
     });
-  }
-
-  componentDidMount() {
-    // TODO: Update this as it is a bit of a hack used because I am retrofitting a layout not built for react
-    const header = document.querySelector("#masthead");
-    header.classList.add("bg--loaded");
-    var menuToggle = document.getElementById("menu-toggle");
-
-    if (menuToggle) {
-      menuToggle.addEventListener("click", function (e) {
-        document.body.classList.toggle("menu--opened");
-        e.preventDefault();
-      }, false);
-      document.body.classList.remove("menu--opened");
-      window.addEventListener("resize", function () {
-        if (menuToggle.offsetParent === null) {
-          document.body.classList.remove("menu--opened");
-        }
-      }, true);
-    }
   }
 
 }
